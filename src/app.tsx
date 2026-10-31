@@ -111,7 +111,7 @@ IMGS["sv6-18"] = "images/cards/sv6-18.webp";
 IMGS["me1-56"] = "images/cards/me1-56.webp";
 IMGS["me2-68"] = "images/cards/me2-68.webp";
 IMGS["sv10-136"] = "images/cards/sv10-136.webp";
-IMGS["rsv10pt5-77"] = "images/cards/rsv10pt5-77.webp";
+IMGS["sv7-119"] = "images/cards/sv7-119.webp";
 IMGS["me2-61"] = "images/cards/me2-61.webp";
 const DECK_CARDS: Record<string, [string, string][]> = {
   "Arceus Crobat": [["Arceus VSTAR", "swsh9-123"], ["Crobat V", "swsh3-104"]],
@@ -136,7 +136,7 @@ const DECK_CARDS: Record<string, [string, string][]> = {
   "Mega Absol Box": [["Mega Absol ex", "me1-86"]],
   "Dragapult Dusknoir": [["Dragapult ex", "sv6-130"], ["Dusknoir", "sv6pt5-20"]],
   "Dragapult": [["Dragapult ex", "sv6-130"]],
-  "Kangaskhan Bouffalant": [["Mega Kangaskhan ex", "me1-104"], ["Bouffalant ex", "rsv10pt5-77"]],
+  "Kangaskhan Bouffalant": [["Mega Kangaskhan ex", "me1-104"], ["Bouffalant", "sv7-119"]],
   "Festival Lead": [["Festival Grounds", "sv6-149"], ["Dipplin", "sv6-18"]],
   "Alakazam Dusknoir": [["Alakazam", "me1-56"], ["Dusknoir", "sv6pt5-20"]],
   "Sharpedo Toxtricity": [["Mega Sharpedo ex", "me2-61"], ["Toxtricity", "me2-68"]],
@@ -342,7 +342,6 @@ export default function App() {
         ]} />
       </Section>
       <Section heading="Highlights">
-        <Callout lead="Champion">Won the 2025 Puerto Rico Special Event at 7-0-2 with Gardevoir, beating Reed H. in the final.</Callout>
         <Table columns={["Event", "Result", "Record", "Deck"]} rows={EVENTS.filter((e: Ev) => e.tag && e.tag !== "First Regional" && e.tag !== "First IC").map((e: Ev) => [e.date + " " + e.name, e.tag + " (" + e.place + ")", e.rec, e.deck])} />
       </Section>
       <Section heading="Championship Points" caption="Official TCG Junior leaderboard, championships.pokemon.com, updated Oct 29, 2026.">
@@ -361,10 +360,6 @@ export default function App() {
       </Section>
       <Section heading="Photo gallery">
         <PhotoGallery />
-      </Section>
-      <Section heading="Notes on the data">
-        <Text>Placings and records come from pokedata.ovh. Decks come from her RK9 submitted lists through January 2025 and Limitless Labs after that. The lifetime record counts byes as wins and leaves out Cups and Challenges.</Text>
-        <Text>Where sources differ, this page uses pokedata: NAIC 2026 is 61st (Labs says 60th), Worlds 2026 is 85th (Labs 86th), NAIC 2025 is 44th (Labs 43rd), Houston 2026 is 44th (Labs 42nd). Louisville 2026 comes from Limitless Labs, and Puebla 2026 (7th of 2468) from RK9.</Text>
       </Section>
     </Page>
   );
