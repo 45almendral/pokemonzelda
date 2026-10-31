@@ -370,7 +370,7 @@ function Pics(p: { list: [string, string, string][]; cls: string }) {
     </div>
   );
 }
-const TILES: [string, string, boolean][] = [["61", "events", true], ["4.5", "seasons", true], ["4x", "Worlds", false], ["1", "SPE title", false], ["2nd", "Louisville Regional", false], ["6", "Regional Top 8s", false], ["262-159-67", "lifetime record", false], ["58.3%", "match-point rate", false]];
+const TILES: [string, string, boolean][] = [["61", "events", true], ["4.5", "seasons", true], ["~400", "hours in rounds", true], ["4x", "Worlds", false], ["1", "SPE title", false], ["2nd", "Louisville Regional", false], ["6", "Regional Top 8s", false], ["262-159-67", "lifetime record", false], ["58.3%", "match-point rate", false]];
 export default function App() {
   return (
     <Page title="Zelda Zhou" summary="Pokemon TCG Juniors. 4x Worlds. SPE Champion. @pokemonzeldaz" width="wide" palette={["#E3350D", "#FFCB05", "#3B6CB7"]}>
