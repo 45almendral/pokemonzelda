@@ -147,6 +147,7 @@ const DECK_CARDS: Record<string, [string, string][]> = {
 const PHOTOS: [string, string, string][] = [
   ["images/photos/IMG_3053.webp", "First Regional, Secaucus", "May 2022"],
   ["images/photos/IMG_3584.webp", "Hartford Regional, first Worlds qualification", "May 2023"],
+  ["images/photos/IMG_4983.webp", "Worlds 2023, Yokohama", "Aug 13, 2023"],
   ["images/photos/IMG_4189.webp", "Worlds 2024, Honolulu", "Aug 14, 2024"],
   ["images/photos/IMG_4359.webp", "Worlds 2024, Honolulu", "Aug 18, 2024"],
   ["images/photos/IMG_0275.webp", "Louisville Regional, runner-up", "Oct 13, 2024"],
@@ -338,8 +339,14 @@ export default function App() {
           { value: "1", label: "Special Event title", detail: "Puerto Rico, Feb 2025" },
           { value: "1", label: "Regional final", detail: "Louisville 2024" },
           { value: "6", label: "Regional Top 8s", detail: "Toronto, Melbourne, Monterrey, Pittsburgh, Puebla, Louisville" },
-          { value: String(DECKS.length), label: "Distinct decks", detail: "From RK9 and Limitless Labs lists" },
+          { value: String(DECKS.length), label: "Distinct decks" },
         ]} />
+      </Section>
+      <Section heading="Where she has played" caption="40 cities in 11 countries, plus Puerto Rico. Marker size grows with the number of events.">
+        <WorldMap />
+      </Section>
+      <Section heading="Photo gallery">
+        <PhotoGallery />
       </Section>
       <Section heading="Highlights">
         <Table columns={["Event", "Result", "Record", "Deck"]} rows={EVENTS.filter((e: Ev) => e.tag && e.tag !== "First Regional" && e.tag !== "First IC").map((e: Ev) => [e.date + " " + e.name, e.tag + " (" + e.place + ")", e.rec, e.deck])} />
@@ -348,18 +355,11 @@ export default function App() {
         <Table columns={["Season", "CP", "North America rank", "Global rank"]} rows={[["2027 (in progress)", "574", "19", "27"], ["2026", "1360", "18", "43"], ["2025", "1655", "9", "14"], ["2024", "970", "25", "45"], ["2023", "270", "50", "104"]]} />
         <Text>North America = US & Canada. 2027 season in progress.</Text>
       </Section>
-      <Section heading="Where she has played" caption="40 cities in 11 countries, plus Puerto Rico. Marker size grows with the number of events.">
-        <WorldMap />
-      </Section>
       <Section heading="Decks she's played">
-        <Callout lead="What's in a name?">Zelda's deck lists come with titles, and they tell a story. In the Manaphy era (2023) it went from "Manaphy loves Kyogre" (Milwaukee, Hartford) to "I miss Manaphy" (EUIC) to "No more Manaphy!" (Worlds), with a detour at NAIC: "Manaphy run it is a Sableye! Mana...PHY! Oh, good thing the sableye cannot attack the water." Then came Fidough: "BAD Fidough no barking!" (Portland 2024), "I hope Morpeko isn't going to eat Fidough" (Knoxville, Vancouver), "Roaring Moon will KO Fidough and damage itself" (Bologna), and numbered chapters from "Chapter 2: Fidough Changes Decklist" (Worlds 2024) through "Chapter 12: Fidough Meets Duskull" (Toronto) to the finale, "Chapter 13: Fidough Says Goodbye" (San Antonio 2025). Next stop: "Goodbye Fidough, Hello Vulpix!" (Vancouver 2025). Today it's the Um era: after "The More Newer Um" (Monterrey, Pittsburgh), plain "Um" debuted at Las Vegas 2025 and gains a dot every event ("Um..." in Sao Paulo, "Um...." in Stuttgart), reaching 15 dots by Puebla 2026. The one break: "4 rarity sharks" at Louisville 2026. Honorable mentions: "Cutest Pokemon: Shaymin!" (NAIC 2025) and "The Unexpected Deck..." (Worlds 2025).</Callout>
         <DeckGallery />
       </Section>
       <Section heading="Tournament timeline" caption="Regionals, Special Events, Internationals and Worlds. Placing, record and deck.">
         <Timeline />
-      </Section>
-      <Section heading="Photo gallery">
-        <PhotoGallery />
       </Section>
     </Page>
   );
