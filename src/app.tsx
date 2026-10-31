@@ -327,42 +327,81 @@ function WorldMap() {
   );
 }
 
+
+const MILES: Record<string, string> = {"Secaucus Regional|May 2022":"First Regional","Hartford Regional|May 2023":"First Worlds qual","Louisville Regional|Oct 2024":"Runner-up","Puerto Rico Special Event|Feb 2025":"SPE Champion","Puebla Regional|Oct 2026":"Top 8"};
+function ProgressChart() {
+  const pts = EVENTS.filter((e: Ev) => FIELD[e.name + "|" + e.date]).map((e: Ev, i: number) => ({ e, i, y: Math.max(0, Math.min(100, 100 * (1 - pct(e)))) }));
+  const W = 1000, H = 360, L = 48, R = 20, T = 30, B = 40;
+  const x = (i: number) => L + (i * (W - L - R)) / (pts.length - 1);
+  const y = (v: number) => T + ((100 - v) * (H - T - B)) / 100;
+  const avg = pts.map((p, i) => { const w = pts.slice(Math.max(0, i - 4), i + 1); return w.reduce((a, b) => a + b.y, 0) / w.length; });
+  const years: [number, string][] = [];
+  pts.forEach((p, i) => { const yr = p.e.date.slice(-4); if (!years.length || years[years.length - 1][1] !== yr) years.push([i, yr]); });
+  return (
+    <div class="chart">
+      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Placement percentile per event over time">
+        {[0, 25, 50, 75, 100].map((v) => <g><line x1={L} x2={W - R} y1={y(v)} y2={y(v)} stroke="#EDE6D8" /><text x={L - 8} y={y(v) + 4} text-anchor="end" font-size="12" fill="#7A8091">{v === 100 ? "Top" : v + "%"}</text></g>)}
+        {years.map(([i, yr]) => <g><line x1={x(i)} x2={x(i)} y1={T} y2={H - B} stroke="#DDD3C0" stroke-dasharray="3 4" /><text x={x(i) + 4} y={H - B + 18} font-size="13" font-weight="700" fill="#4A5163">{yr}</text></g>)}
+        <polyline points={avg.map((v, i) => x(i) + "," + y(v)).join(" ")} fill="none" stroke="#3B6CB7" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" />
+        {pts.map((p, i) => { const m = MILES[p.e.name + "|" + p.e.date]; return (
+          <g><circle cx={x(i)} cy={y(p.y)} r={m ? 8 : 4.5} fill={m ? "#E3350D" : "#B9AC93"} stroke="#fff" stroke-width="2"><title>{p.e.date + " " + p.e.name + ": " + p.e.place + " out of " + FIELD[p.e.name + "|" + p.e.date]}</title></circle>
+          {m ? <text x={Math.min(Math.max(x(i), L + 40), W - R - 50)} y={y(p.y) - 14} text-anchor="middle" font-size="13" font-weight="800" fill="#C2410C">{m}</text> : null}</g>); })}
+      </svg>
+      <div class="legend"><span><i style={{ background: "#B9AC93" }} />Each event (higher is better)</span><span><i style={{ background: "#3B6CB7", height: 4 }} />5-event average</span><span><i style={{ background: "#E3350D" }} />Milestone</span></div>
+    </div>
+  );
+}
+const TROPHIES: [string, string, string][] = [
+  ["images/photos/IMG_1173.webp", "Puerto Rico SPE Champion trophy", "Feb 15, 2025"],
+  ["images/photos/IMG_0185.webp", "Louisville Regional runner-up medal", "Oct 13, 2024"],
+];
+const FRIENDS: [string, string, string][] = [
+  ["images/photos/IMG_4877.webp", "Ice cream with friends, Monterrey", "Sep 13, 2025"],
+  ["images/photos/IMG_4922.webp", "Playmat crew, Monterrey", "Sep 14, 2025"],
+  ["images/photos/IMG_5155.webp", "Friends outside, Milwaukee", "Oct 11, 2025"],
+  ["images/photos/IMG_7566.webp", "Squad in the hall, Seattle", "Mar 1, 2026"],
+];
+function Pics(p: { list: [string, string, string][]; cls: string }) {
+  return (
+    <div class={p.cls}>
+      {p.list.map((q) => (
+        <figure><img src={q[0]} alt={q[1]} loading="lazy" data-full={q[0].replace("photos/", "photos/full/")} class="zoom" /><figcaption><b>{q[1]}</b><span>{q[2]}</span></figcaption></figure>
+      ))}
+    </div>
+  );
+}
+const TILES: [string, string, boolean][] = [["61", "events", true], ["4.5", "seasons", true], ["4x", "Worlds", false], ["1", "SPE title", false], ["2nd", "Louisville Regional", false], ["6", "Regional Top 8s", false], ["262-159-67", "lifetime record", false], ["58.3%", "match-point rate", false]];
 export default function App() {
   return (
-    <Page title="Zelda Z. | Pokemon TCG Juniors" summary="4x Worlds competitor and 2025 Puerto Rico Special Event Champion. Every major tournament from her first Regional in May 2022 to Puebla in October 2026." width="wide" palette={["#E3350D", "#FFCB05", "#3B6CB7"]}>
-      <Section heading="Zelda Zhou, @pokemonzeldaz">
-        <Text>Juniors competitor from the Bay Area. Four straight World Championships, a Special Event title, a Regional final and six Regional Top 8s.</Text>
-        <Metrics metrics={[
-          { value: "262-159-67", label: "Lifetime record", detail: "61 events through Puebla 2026" },
-          { value: "58.3%", label: "Match-point rate", detail: "53.7% win rate" },
-          { value: "4", label: "Worlds appearances", detail: "2023, 2024, 2025, 2026" },
-          { value: "1", label: "Special Event title", detail: "Puerto Rico, Feb 2025" },
-          { value: "1", label: "Regional final", detail: "Louisville 2024" },
-          { value: "6", label: "Regional Top 8s", detail: "Toronto, Melbourne, Monterrey, Pittsburgh, Puebla, Louisville" },
-          { value: String(DECKS.length), label: "Distinct decks" },
-        ]} />
-      </Section>
-      <Section heading="Where she has played" caption="40 cities in 11 countries, plus Puerto Rico. Marker size grows with the number of events.">
+    <Page title="Zelda Zhou" summary="Pokemon TCG Juniors. 4x Worlds. SPE Champion. @pokemonzeldaz" width="wide" palette={["#E3350D", "#FFCB05", "#3B6CB7"]}>
+      <div class="tiles">{TILES.map((t) => <div class={"tile" + (t[2] ? " key" : "")}><div class={"tv" + (t[0].length > 6 ? " sm" : "")}>{t[0]}</div><div class="tl">{t[1]}</div></div>)}</div>
+      <Section heading="Where she has played" caption="40 cities, 11 countries plus Puerto Rico.">
         <WorldMap />
+      </Section>
+      <Section heading="Trophy case">
+        <Pics list={TROPHIES} cls="trophies" />
       </Section>
       <Section heading="Photo gallery">
         <PhotoGallery />
       </Section>
+      <Section heading="Friends along the way">
+        <Pics list={FRIENDS} cls="friends" />
+      </Section>
+      <Section heading="Her progress" caption="How far up the Juniors field she finished at each event.">
+        <ProgressChart />
+      </Section>
       <Section heading="Highlights">
         <Table columns={["Event", "Result", "Record", "Deck"]} rows={EVENTS.filter((e: Ev) => e.tag && e.tag !== "First Regional" && e.tag !== "First IC").map((e: Ev) => [e.date + " " + e.name, e.tag + " (" + e.place + ")", e.rec, e.deck])} />
       </Section>
-      <Section heading="Championship Points" caption="Official TCG Junior leaderboard, championships.pokemon.com, updated Oct 29, 2026.">
-        <Table columns={["Season", "CP", "North America rank", "Global rank"]} rows={[["2027 (in progress)", "574", "19", "27"], ["2026", "1360", "18", "43"], ["2025", "1655", "9", "14"], ["2024", "970", "25", "45"], ["2023", "270", "50", "104"]]} />
-        <Text>North America = US & Canada. 2027 season in progress.</Text>
+      <Section heading="Championship Points" caption="Official Junior leaderboard, updated Oct 29, 2026. NA = US & Canada.">
+        <Table columns={["Season", "CP", "NA rank", "Global rank"]} rows={[["2027 (in progress)", "574", "19", "27"], ["2026", "1360", "18", "43"], ["2025", "1655", "9", "14"], ["2024", "970", "25", "45"], ["2023", "270", "50", "104"]]} />
       </Section>
       <Section heading="Decks she's played">
         <DeckGallery />
       </Section>
-      <Section heading="Tournament timeline" caption="Regionals, Special Events, Internationals and Worlds. Placing, record and deck.">
+      <Section heading="Tournament timeline">
         <Timeline />
       </Section>
     </Page>
   );
 }
-
-
