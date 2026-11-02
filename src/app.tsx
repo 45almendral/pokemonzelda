@@ -328,7 +328,7 @@ function WorldMap() {
 }
 
 
-const MILES: Record<string, string> = {"Secaucus Regional|May 2022":"First Regional","Hartford Regional|May 2023":"First Worlds qual","Louisville Regional|Oct 2024":"Runner-up","Puerto Rico Special Event|Feb 2025":"SPE Champion","Puebla Regional|Oct 2026":"Top 8"};
+const MILES: Record<string, string> = {"Secaucus Regional|May 2022":"First Regional","Hartford Regional|May 2023":"First Worlds qual","Louisville Regional|Oct 2024":"Runner-up","Puerto Rico Special Event|Feb 2025":"SPE Champion"};
 function ProgressChart() {
   const pts = EVENTS.filter((e: Ev) => FIELD[e.name + "|" + e.date]).map((e: Ev, i: number) => ({ e, i, y: Math.max(0, Math.min(100, 100 * (1 - pct(e)))) }));
   const W = 1000, H = 360, L = 48, R = 20, T = 30, B = 40;
