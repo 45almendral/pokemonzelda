@@ -343,11 +343,13 @@ function ProgressChart() {
         {[0, 25, 50, 75, 100].map((v) => <g><line x1={L} x2={W - R} y1={y(v)} y2={y(v)} stroke="#EDE6D8" /><text x={L - 8} y={y(v) + 4} text-anchor="end" font-size="12" fill="#7A8091">{v === 100 ? "Top" : v + "%"}</text></g>)}
         {years.map(([i, yr]) => <g><line x1={x(i)} x2={x(i)} y1={T} y2={H - B} stroke="#DDD3C0" stroke-dasharray="3 4" /><text x={x(i) + 4} y={H - B + 18} font-size="13" font-weight="700" fill="#4A5163">{yr}</text></g>)}
         <polyline points={avg.map((v, i) => x(i) + "," + y(v)).join(" ")} fill="none" stroke="#3B6CB7" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" />
-        {pts.map((p, i) => { const m = MILES[p.e.name + "|" + p.e.date]; return (
-          <g><circle cx={x(i)} cy={y(p.y)} r={m ? 8 : 4.5} fill={m ? "#E3350D" : "#B9AC93"} stroke="#fff" stroke-width="2"><title>{p.e.date + " " + p.e.name + ": " + p.e.place + " out of " + FIELD[p.e.name + "|" + p.e.date]}</title></circle>
-          {m ? <text x={Math.min(Math.max(x(i), L + 40), W - R - 50)} y={y(p.y) - 14} text-anchor="middle" font-size="13" font-weight="800" fill="#C2410C">{m}</text> : null}</g>); })}
+        {pts.map((p, i) => { const m = MILES[p.e.name + "|" + p.e.date]; const n = parseInt(p.e.place); const t8 = n > 0 && n <= 8; const wc = /World Championships/.test(p.e.name); const fill = t8 ? "#F2B705" : wc ? "#6D28D9" : m ? "#E3350D" : "#B9AC93"; const r = t8 ? 10 : wc ? 9 : m ? 8 : 4.5; return (
+          <g>{wc ? <rect x={x(i) - r} y={y(p.y) - r} width={2 * r} height={2 * r} transform={`rotate(45 ${x(i)} ${y(p.y)})`} fill={fill} stroke="#fff" stroke-width="2"><title>{p.e.date + " " + p.e.name + ": " + p.e.place + " out of " + FIELD[p.e.name + "|" + p.e.date]}</title></rect> : <circle cx={x(i)} cy={y(p.y)} r={r} fill={fill} stroke={t8 ? "#92400E" : "#fff"} stroke-width={t8 ? 2.5 : 2}><title>{p.e.date + " " + p.e.name + ": " + p.e.place + " out of " + FIELD[p.e.name + "|" + p.e.date]}</title></circle>}
+          {t8 ? <text x={x(i)} y={y(p.y) + 4} text-anchor="middle" font-size="10" font-weight="800" fill="#3B2A00">{n}</text> : null}
+          {wc ? <text x={x(i)} y={y(p.y) + 26} text-anchor="middle" font-size="12" font-weight="800" fill="#6D28D9">{"Worlds " + p.e.date.slice(-2) + ": " + p.e.place}</text> : null}
+          {m ? <text x={Math.min(Math.max(x(i), L + 40), W - R - 50)} y={y(p.y) - 16} text-anchor="middle" font-size="13" font-weight="800" fill="#C2410C">{m}</text> : null}</g>); })}
       </svg>
-      <div class="legend"><span><i style={{ background: "#B9AC93" }} />Each event (higher is better)</span><span><i style={{ background: "#3B6CB7", height: 4 }} />5-event average</span><span><i style={{ background: "#E3350D" }} />Milestone</span></div>
+      <div class="legend"><span><i style={{ background: "#B9AC93" }} />Each event (higher is better)</span><span><i style={{ background: "#3B6CB7", height: 4 }} />5-event average</span><span><i style={{ background: "#F2B705" }} />Top 8 finish</span><span><i style={{ background: "#6D28D9" }} />Worlds</span><span><i style={{ background: "#E3350D" }} />Milestone</span></div>
     </div>
   );
 }
