@@ -157,6 +157,8 @@ const PHOTOS: [string, string, string][] = [
   ["images/photos/IMG_4674.webp", "Worlds 2025, Anaheim", "Aug 17, 2025"],
   ["images/photos/worlds2025.webp", "Worlds 2025, Anaheim", "Aug 2025"],
   ["images/photos/IMG_5507.webp", "São Paulo LAIC", "Nov 21, 2025"],
+  ["images/photos/IMG_0217.webp", "Worlds 2026, San Francisco", "Aug 28, 2026"],
+  ["images/photos/IMG_0250.webp", "Worlds 2026, San Francisco", "Aug 30, 2026"],
 ];
 function PhotoGallery() {
   const t = useGrokTheme();
